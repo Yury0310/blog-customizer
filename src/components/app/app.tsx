@@ -1,26 +1,37 @@
-import { CSSProperties } from 'react';
-import clsx from 'clsx';
+import { useState } from 'react';
+import { ArticleParamsForm } from '../article-params-form';
+import { Article } from '../article';
 
-import { Article } from '../article/Article';
-import { ArticleParamsForm } from '../article-params-form/ArticleParamsForm';
-import { defaultArticleState } from './../../constants/articleProps';
-
+// Импортируем дефолтное состояние и тип из констант
+import {
+	defaultArticleState,
+	ArticleStateType,
+} from 'src/constants/articleProps';
+//// eslint-disable-next-line import/no-unresolved
 import styles from './app.module.scss';
 
 export const App = () => {
+	// Создаем глобальное состояние для примененных настроек статьи
+	const [articleState, setArticleState] =
+		useState<ArticleStateType>(defaultArticleState);
+
 	return (
 		<main
-			className={clsx(styles.main)}
+			className={styles.main}
+			// передаем выбранные CSS-переменные в инлайн-стили тега main
 			style={
 				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
-				} as CSSProperties
+					'--font-family': articleState.fontFamilyOption.value,
+					'--font-size': articleState.fontSizeOption.value,
+					'--font-color': articleState.fontColor.value,
+					'--bg-color': articleState.backgroundColor.value,
+					'--container-width': articleState.contentWidth.value,
+				} as React.CSSProperties
 			}>
-			<ArticleParamsForm />
+			<ArticleParamsForm
+				onApply={setArticleState}
+				currentAppState={articleState}
+			/>
 			<Article />
 		</main>
 	);
