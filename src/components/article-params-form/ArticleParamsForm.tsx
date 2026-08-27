@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 
-// Импортируем готовые UI-компоненты
+// UI-компоненты
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 
-// Импортируем константы и типы
+// Константы и типы
 import {
 	defaultArticleState,
 	ArticleStateType,
@@ -23,7 +23,7 @@ import styles from './ArticleParamsForm.module.scss';
 
 interface ArticleParamsFormProps {
 	onApply: (settings: ArticleStateType) => void;
-	currentAppState: ArticleStateType; // Добавили пропс актуального состояния страницы
+	currentAppState: ArticleStateType; // пропс актуального состояния страницы
 }
 
 export const ArticleParamsForm = ({
@@ -32,14 +32,12 @@ export const ArticleParamsForm = ({
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 
-	// Локальное изолированное состояние формы инициализируем актуальным состоянием приложения
 	const [formState, setFormState] = useState<ArticleStateType>(currentAppState);
 
 	const formContainerRef = useRef<HTMLDivElement>(null);
 
 	const toggleSidebar = () => setIsOpen((prev) => !prev);
 
-	// Синхронизируем локальную форму с глобальным стейтом при открытии/закрытии панели
 	useEffect(() => {
 		if (!isOpen) {
 			setFormState(currentAppState);
